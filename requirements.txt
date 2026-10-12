@@ -1,0 +1,8 @@
+geopandas
+osmnx
+rasterio
+shapely
+ijson
+numpy
+matplotlib
+pyogrio

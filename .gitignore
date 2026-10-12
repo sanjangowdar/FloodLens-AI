@@ -1,0 +1,35 @@
+# Python environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Large source datasets
+data/osm/roads.geojson
+data/osm/buildings.geojson
+
+# Processed geospatial datasets
+data/processed/*.geojson
+
+# Satellite imagery
+data/satellite/
+*.tif
+*.tiff
+
+# Temporary processing files
+*.tmp
+
+# Keep project summaries and documentation
+!outputs/*.json
+!outputs/*.md
+
+
+# Additional virtual environment and cache
+.venv-1/
+cache/
+
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example

@@ -1,0 +1,9 @@
+{
+  "project": "FloodLens AI",
+  "role": "P1 Data and Preprocessing",
+  "study_area": "Trishuli/Rasuwa corridor, Nepal",
+  "event_date": "2026-08-26",
+  "data_source": "OpenStreetMap",
+  "attribution": "\u00a9 OpenStreetMap contributors.",
+  "warning": "Downloaded features may reflect current map data. Historical pre-event validity must be verified before using these features in the final analysis."
+}

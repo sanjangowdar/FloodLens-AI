@@ -1,0 +1,22 @@
+{
+  "roads": {
+    "dataset": "roads",
+    "feature_count": 44571,
+    "geometry_types": {
+      "LineString": 44571
+    },
+    "crs": "EPSG:4326",
+    "empty_geometries": 0,
+    "missing_geometries": 0
+  },
+  "buildings": {
+    "dataset": "buildings",
+    "feature_count": 520315,
+    "geometry_types": {
+      "Polygon": 520315
+    },
+    "crs": "EPSG:4326",
+    "empty_geometries": 0,
+    "missing_geometries": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "project": "FloodLens AI",
+  "study_area_status": "PROVISIONAL - verify geographically",
+  "crs": "EPSG:4326",
+  "roads": {
+    "road_features": 6004,
+    "road_length_km": 2785.053
+  },
+  "buildings": {
+    "building_features": 77932
+  },
+  "warning": "Infrastructure intersecting a provisional rectangle. This is not a flood-damage estimate. OSM data may not represent infrastructure as it existed before the event."
+}
