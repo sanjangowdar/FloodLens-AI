@@ -4,6 +4,13 @@
   "study_area": "Trishuli/Rasuwa corridor, Nepal",
   "event_date": "2026-08-26",
   "data_source": "OpenStreetMap",
-  "attribution": "\u00a9 OpenStreetMap contributors.",
-  "warning": "Downloaded features may reflect current map data. Historical pre-event validity must be verified before using these features in the final analysis."
+  "attribution": "© OpenStreetMap contributors.",
+  "warning": "Downloaded features may reflect current map data. Historical pre-event validity must be verified before using these features in the final analysis.",
+  "additional_layers_attempted": [
+    "bridges",
+    "health facilities",
+    "schools",
+    "settlements and places"
+  ],
+  "historical_data_warning": "Current OSM data may not represent conditions at the time of the flood. Historical validity must be checked."
 }

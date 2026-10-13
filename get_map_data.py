@@ -3,110 +3,137 @@ import json
 
 import geopandas as gpd
 import osmnx as ox
+from shapely.geometry import box
 
-# Create a folder to store downloaded map data
+# --------------------------------------------------
+# FLOODLENS AI - P1 ESSENTIAL INFRASTRUCTURE DATA
+# --------------------------------------------------
+
 OUTPUT = Path("data/osm")
 OUTPUT.mkdir(parents=True, exist_ok=True)
 
-# Initial study area around the Trishuli/Rasuwa corridor, Nepal
 WEST = 84.7
 SOUTH = 27.7
 EAST = 85.5
 NORTH = 28.3
 
-print("=" * 50)
-print("FLOODLENS AI - P1 DATA COLLECTION")
-print("=" * 50)
+BOUNDARY_FILE = OUTPUT / "study_area.geojson"
 
-# Create the study area boundary
-from shapely.geometry import box
+print("=" * 60)
+print("FLOODLENS AI - P1 INFRASTRUCTURE DATA")
+print("=" * 60)
 
-boundary = gpd.GeoDataFrame(
-    {"name": ["Trishuli study area"]},
-    geometry=[box(WEST, SOUTH, EAST, NORTH)],
-    crs="EPSG:4326",
-)
-
-boundary.to_file(
-    OUTPUT / "study_area.geojson",
-    driver="GeoJSON",
-)
-
-print("\n1. Study area boundary saved.")
-
-# Download roads
-print("\n2. Downloading roads from OpenStreetMap...")
-
-try:
-    roads = ox.features_from_bbox(
-        (WEST, SOUTH, EAST, NORTH),
-        tags={"highway": True},
+# 1. Preserve the existing boundary if it already exists.
+# Otherwise, create the original broad study boundary.
+if BOUNDARY_FILE.exists():
+    boundary = gpd.read_file(BOUNDARY_FILE)
+    print("\nUsing existing study-area boundary.")
+else:
+    boundary = gpd.GeoDataFrame(
+        {"name": ["Trishuli study area"]},
+        geometry=[box(WEST, SOUTH, EAST, NORTH)],
+        crs="EPSG:4326",
     )
 
-    if not roads.empty:
-        roads = roads.reset_index()
-        roads.to_file(
-            OUTPUT / "roads.geojson",
+    boundary.to_file(BOUNDARY_FILE, driver="GeoJSON")
+    print("\nCreated broad study-area boundary.")
+
+# 2. Feature download helper
+def download_features(name, tags, filename):
+    output_file = OUTPUT / filename
+
+    if output_file.exists():
+        print(f"\nSKIPPED {name}: existing file preserved.")
+        print(f"File: {output_file}")
+        return
+
+    print(f"\nDownloading {name} from OpenStreetMap...")
+
+    try:
+        data = ox.features_from_bbox(
+            (WEST, SOUTH, EAST, NORTH),
+            tags=tags,
+        )
+
+        if data.empty:
+            print(f"No {name} features returned.")
+            return
+
+        data = data.reset_index()
+
+        data.to_file(
+            output_file,
             driver="GeoJSON",
         )
-        print(f"SUCCESS: Saved {len(roads)} road features.")
-    else:
-        print("No road features were returned.")
 
-except Exception as error:
-    print("Road download failed.")
-    print("Error:", error)
+        print(f"SUCCESS: Saved {len(data)} {name} features.")
+        print(f"File: {output_file}")
 
-# Download buildings
-print("\n3. Downloading buildings from OpenStreetMap...")
+    except Exception as error:
+        print(f"FAILED to download {name}.")
+        print(f"Reason: {error}")
 
-try:
-    buildings = ox.features_from_bbox(
-        (WEST, SOUTH, EAST, NORTH),
-        tags={"building": True},
-    )
+# 3. Download only the additional categories.
+download_features(
+    "bridges",
+    {"bridge": True},
+    "bridges.geojson",
+)
 
-    if not buildings.empty:
-        buildings = buildings.reset_index()
-        buildings.to_file(
-            OUTPUT / "buildings.geojson",
-            driver="GeoJSON",
+download_features(
+    "health facilities",
+    {"amenity": ["hospital", "clinic", "doctors"]},
+    "health_facilities.geojson",
+)
+
+download_features(
+    "schools",
+    {"amenity": ["school", "university", "college"]},
+    "schools.geojson",
+)
+
+download_features(
+    "settlements and places",
+    {"place": ["city", "town", "village", "hamlet", "suburb"]},
+    "settlements.geojson",
+)
+
+# 4. Update metadata without changing the original study boundary.
+metadata_file = OUTPUT / "metadata.json"
+
+if metadata_file.exists():
+    try:
+        metadata = json.loads(
+            metadata_file.read_text(encoding="utf-8")
         )
-        print(
-            f"SUCCESS: Saved {len(buildings)} building features."
-        )
-    else:
-        print("No building features were returned.")
+    except Exception:
+        metadata = {}
+else:
+    metadata = {}
 
-except Exception as error:
-    print("Building download failed.")
-    print("Error:", error)
-
-# Save source information
-metadata = {
+metadata.update({
     "project": "FloodLens AI",
     "role": "P1 Data and Preprocessing",
-    "study_area": "Trishuli/Rasuwa corridor, Nepal",
-    "event_date": "2026-08-26",
     "data_source": "OpenStreetMap",
     "attribution": "© OpenStreetMap contributors.",
-    "warning": (
-        "Downloaded features may reflect current map data. "
-        "Historical pre-event validity must be verified "
-        "before using these features in the final analysis."
+    "additional_layers_attempted": [
+        "bridges",
+        "health facilities",
+        "schools",
+        "settlements and places",
+    ],
+    "historical_data_warning": (
+        "Current OSM data may not represent conditions at the "
+        "time of the flood. Historical validity must be checked."
     ),
-}
+})
 
-with open(
-    OUTPUT / "metadata.json",
-    "w",
+metadata_file.write_text(
+    json.dumps(metadata, indent=2, ensure_ascii=False),
     encoding="utf-8",
-) as file:
-    json.dump(metadata, file, indent=2)
+)
 
-print("\n4. Metadata saved.")
-
-print("\n" + "=" * 50)
-print("DATA COLLECTION ATTEMPT FINISHED")
-print(f"Check this folder: {OUTPUT.resolve()}")
-print("=" * 50)
+print("\n" + "=" * 60)
+print("P1 ADDITIONAL DATA COLLECTION FINISHED")
+print("Review the output files before using them.")
+print("=" * 60)
