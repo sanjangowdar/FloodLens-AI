@@ -1,0 +1,75 @@
+{
+  "project": "FloodLens AI",
+  "role": "P1 - Data and Preprocessing",
+  "status": "PARTIAL - satellite imagery and flood classification pending",
+  "artifacts": {
+    "study_area": {
+      "path": "data/osm/study_area.geojson",
+      "exists": true,
+      "size_bytes": 366
+    },
+    "provisional_study_area": {
+      "path": "data/osm/study_area_provisional.geojson",
+      "exists": true,
+      "size_bytes": 406
+    },
+    "roads": {
+      "path": "data/processed/roads_lines.geojson",
+      "exists": true,
+      "size_bytes": 242593930
+    },
+    "buildings": {
+      "path": "data/processed/buildings_polygons.geojson",
+      "exists": true,
+      "size_bytes": 4307362469
+    },
+    "infrastructure_baseline": {
+      "path": "outputs/infrastructure_baseline.json",
+      "exists": true,
+      "size_bytes": 442
+    },
+    "provisional_area_baseline": {
+      "path": "outputs/provisional_area_baseline.json",
+      "exists": true,
+      "size_bytes": 1316
+    },
+    "satellite_preprocessing_report": {
+      "path": "outputs/satellite_preprocessing_report.json",
+      "exists": true,
+      "size_bytes": 650
+    },
+    "data_readiness_report": {
+      "path": "outputs/data_readiness.json",
+      "exists": true,
+      "size_bytes": 1154
+    },
+    "flood_extent_raster": {
+      "path": "outputs/flood_extent.tif",
+      "exists": false,
+      "size_bytes": null
+    },
+    "potentially_affected_roads": {
+      "path": "outputs/potentially_affected_roads.geojson",
+      "exists": false,
+      "size_bytes": null
+    },
+    "potentially_affected_buildings": {
+      "path": "outputs/potentially_affected_buildings.geojson",
+      "exists": false,
+      "size_bytes": null
+    },
+    "impact_summary": {
+      "path": "outputs/impact_summary.json",
+      "exists": false,
+      "size_bytes": null
+    }
+  },
+  "integration_notes": [
+    "Road and building layers are GeoJSON in EPSG:4326, subject to verification.",
+    "The provisional study-area boundary is not the confirmed final boundary.",
+    "Satellite acquisition is handled by another team member.",
+    "Flood extent must be a georeferenced binary raster: 1=flood, 0=non-flood, with invalid pixels marked as NoData.",
+    "The impact script estimates spatial exposure, not confirmed physical damage.",
+    "Do not integrate provisional statistics as final event results."
+  ]
+}

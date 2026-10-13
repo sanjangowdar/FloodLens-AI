@@ -1,13 +1,35 @@
 {
   "project": "FloodLens AI",
-  "study_area_status": "PROVISIONAL - verify geographically",
-  "crs": "EPSG:4326",
+  "study_area_status": "PROVISIONAL - geographic boundary not yet verified",
+  "study_area_file": "data\\osm\\study_area_provisional.geojson",
+  "coordinate_reference_system": "EPSG:4326",
+  "measurement_crs": "EPSG:32645",
+  "study_area": {
+    "approximate_area_km2": 545.29,
+    "bounds_wgs84": {
+      "west": 85.0,
+      "south": 27.85,
+      "east": 85.25,
+      "north": 28.05
+    }
+  },
   "roads": {
-    "road_features": 6004,
-    "road_length_km": 2785.053
+    "intersecting_road_features": 6004,
+    "clipped_road_segments": 6004,
+    "road_length_within_area_km": 2621.165
   },
   "buildings": {
-    "building_features": 77932
+    "intersecting_building_features": 77932,
+    "count_method": "Building polygons intersecting study area"
   },
-  "warning": "Infrastructure intersecting a provisional rectangle. This is not a flood-damage estimate. OSM data may not represent infrastructure as it existed before the event."
+  "limitations": [
+    "The study-area boundary is provisional and must be geographically verified.",
+    "OpenStreetMap features are mapped infrastructure, not verified ground truth.",
+    "Road length is measured only within the study-area boundary.",
+    "Buildings are counted when their mapped polygons intersect the boundary.",
+    "No satellite-derived flood extent was used.",
+    "No flood detection or damage estimation has been performed.",
+    "Current OpenStreetMap data may not represent conditions on the event date."
+  ],
+  "attribution": "© OpenStreetMap contributors."
 }

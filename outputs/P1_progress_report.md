@@ -1,87 +1,85 @@
+# FloodLens AI — P1 Data & Preprocessing Progress Report
 
-# FloodLens AI — P1 Data & Preprocessing Report
+**Last updated:** 13 October 2026  
+**Role:** P1 — Data and Preprocessing  
+**Study area:** Trishuli/Rasuwa corridor, Nepal  
+**Flood event date:** 26 August 2026  
+**Status:** Infrastructure preprocessing completed for a provisional study area.
 
-Generated: 2026-10-12 21:32
+## 1. Objective
 
-## 1. Project overview
+Prepare and validate OpenStreetMap (OSM) infrastructure data for the FloodLens AI flood-impact mapping pipeline.
 
-FloodLens AI is a flood-impact analysis prototype intended to combine
-satellite observations with mapped infrastructure.
+## 2. Data Sources
 
-## 2. Data preparation completed
+OpenStreetMap provides the current road and building features used in this preprocessing stage.
 
-- OpenStreetMap road and building features were collected.
-- Road geometries were filtered into a road-line dataset.
-- Building geometries were filtered into a building-polygon dataset.
-- An infrastructure baseline summary was generated.
-- A provisional study-area baseline was generated.
+Attribution: © OpenStreetMap contributors.
 
-## 3. Processed datasets
+Important limitation: Current OSM features may not represent the infrastructure that existed before the flood. Historical validity must be assessed before final impact estimates are reported.
 
-- `data/processed/roads_lines.geojson`
-- `data/processed/buildings_polygons.geojson`
-- `outputs/infrastructure_baseline.json`
-- `outputs/provisional_area_baseline.json`
+## 3. Infrastructure Data Prepared
 
-## 4. Infrastructure baseline
+### Roads
+- Source features inspected: 44,571
+- Geometry type: LineString
+- Coordinate reference system: EPSG:4326
+- Empty geometries: 0
+- Missing geometries: 0
 
-### Overall processed data
+### Buildings
+- Source features inspected: 520,315
+- Geometry type: Polygon
+- Coordinate reference system: EPSG:4326
+- Empty geometries: 0
+- Missing geometries: 0
 
-#### roads
-- **Dataset:** roads
-- **Feature Count:** 44571
-- **Geometry Types:** {'LineString': 44571}
-- **Crs:** EPSG:4326
-- **Empty Geometries:** 0
-- **Missing Geometries:** 0
+## 4. Provisional Study-Area Statistics
 
-#### buildings
-- **Dataset:** buildings
-- **Feature Count:** 520315
-- **Geometry Types:** {'Polygon': 520315}
-- **Crs:** EPSG:4326
-- **Empty Geometries:** 0
-- **Missing Geometries:** 0
+The current working boundary is a provisional rectangular area around Betrawati–Gerkhu.
 
-## 5. Provisional study-area statistics
+- Approximate area: 545.29 km²
+- Road features intersecting the area: 6,004
+- Road length within the area: 2,621.165 km
+- Building features intersecting the area: 77,932
 
-```json
-{
-  "project": "FloodLens AI",
-  "study_area_status": "PROVISIONAL - verify geographically",
-  "crs": "EPSG:4326",
-  "roads": {
-    "road_features": 6004,
-    "road_length_km": 2785.053
-  },
-  "buildings": {
-    "building_features": 77932
-  },
-  "warning": "Infrastructure intersecting a provisional rectangle. This is not a flood-damage estimate. OSM data may not represent infrastructure as it existed before the event."
-}
-```
+These are preliminary infrastructure statistics. The team must confirm the final study-area boundary before they are presented as final hackathon results.
 
-## 6. Pending work
+## 5. Validation Performed
 
-- Verify the event date and geographic study area.
-- Obtain suitable pre-event and post-event satellite imagery.
-- Apply an appropriate flood-detection method.
-- Compare the resulting flood extent with roads and buildings.
-- Validate results and document uncertainty.
+- Inspected road and building geometry types.
+- Checked for missing and empty geometries.
+- Recalculated clipped road lengths.
+- Confirmed that the saved road-length result matches the recalculated value.
+- Recorded source metadata and data-quality limitations.
+
+Pyogrio reported repeated source feature IDs while reading the data. These warnings were recorded; the features have not been removed solely because of repeated IDs.
+
+## 6. Outstanding Work
+
+1. Confirm and validate the team's final study-area boundary.
+2. Review OSM infrastructure completeness and historical validity.
+3. Obtain additional infrastructure layers, including bridges, health facilities and settlements, if required and available.
+4. Preprocess and inspect the pre-flood and post-flood satellite imagery supplied by the satellite-data team member.
+5. Validate flood extent and affected-asset calculations before reporting impact estimates.
+6. Update the final results and documentation after validation.
+
+Additional OSM queries for bridges, health facilities, schools and settlements timed out. These layers have not yet been collected successfully.
 
 ## 7. Limitations
 
-No satellite imagery has yet been processed by this pipeline.
-Therefore, no flood extent or damaged-infrastructure count is claimed.
+- The current working boundary remains provisional.
+- OSM data may not represent pre-flood conditions.
+- No validated satellite-derived flood extent is available at this stage.
+- Flood damage and road-isolation estimates are not yet validated.
+- Missing additional infrastructure layers limit the current analysis.
 
-The OpenStreetMap data may not represent infrastructure as it existed
-before the flood. The study area remains provisional, and road-length
-statistics require clipping to the study boundary before being reported
-as lengths within that boundary.
+## 8. Output Files
 
-## 8. Attribution
+- `outputs/infrastructure_baseline.json`
+- `outputs/provisional_area_baseline.json`
+- `outputs/P1_progress_report.md`
 
-© OpenStreetMap contributors.
+## 9. Conclusion
 
-Satellite-data attribution and training-dataset citations must be added
-when the corresponding data sources are selected and used.
+The initial OSM road and building preprocessing and basic geometry checks are complete. The next phase depends on confirming the final study-area boundary, addressing data limitations, and integrating validated satellite-derived flood information.

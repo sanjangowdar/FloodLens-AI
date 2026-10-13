@@ -1,0 +1,25 @@
+{
+  "project": "FloodLens AI",
+  "purpose": "Satellite imagery inspection before flood analysis",
+  "files": {
+    "sentinel1_pre": {
+      "status": "missing"
+    },
+    "sentinel1_post": {
+      "status": "missing"
+    },
+    "sentinel2_pre": {
+      "status": "missing"
+    },
+    "sentinel2_post": {
+      "status": "missing"
+    }
+  },
+  "missing_files": [
+    "C:\\FloodLens-P1\\data\\satellite\\sentinel1_pre.tif",
+    "C:\\FloodLens-P1\\data\\satellite\\sentinel1_post.tif",
+    "C:\\FloodLens-P1\\data\\satellite\\sentinel2_pre.tif",
+    "C:\\FloodLens-P1\\data\\satellite\\sentinel2_post.tif"
+  ],
+  "warnings": []
+}
